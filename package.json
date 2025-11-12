@@ -1,0 +1,30 @@
+{
+  "name": "cryptocurrency_tracker",
+  "version": "1.0.0",
+  "description": "**Cryptocurrency Tracker** — це вебзастосунок, розроблений як персональний  кабінет для інвесторів та трейдерів. Він дозволяє користувачам в одному  інтерфейсі відстежувати ринок криптоактивів, керувати власним списком  обраних монет та переглядати актуальні новини.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VaL2111/Cryptocurrency_tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VaL2111/Cryptocurrency_tracker/issues"
+  },
+  "homepage": "https://github.com/VaL2111/Cryptocurrency_tracker#readme",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "prettier": "^3.6.2"
+  },
+  "lint-staged": {
+    "*.{ts,js,json,md}": "prettier --write",
+    "backend/src/**/*.ts": "npm run lint --prefix backend -- --fix"
+  }
+}
