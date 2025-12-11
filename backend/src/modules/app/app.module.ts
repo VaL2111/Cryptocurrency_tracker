@@ -20,16 +20,37 @@ import { Watchlist } from "../watchlist/models/watchlist.model";
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        dialect: "postgres",
-        port: configService.get("db_port"),
-        username: configService.get("db_user"),
-        password: configService.get("db_password"),
-        database: configService.get("db_name"),
-        synchronize: true,
-        autoLoadModels: true,
-        models: [User, Watchlist],
-      }),
+      useFactory: (configService: ConfigService) => {
+        const databaseUrl = process.env.DATABASE_URL;
+
+        if (databaseUrl) {
+          return {
+            dialect: "postgres",
+            uri: databaseUrl,
+            synchronize: true,
+            autoLoadModels: true,
+            models: [User, Watchlist],
+            dialectOptions: {
+              ssl: {
+                require: true,
+                rejectUnauthorized: false,
+              },
+            },
+          };
+        }
+
+        return {
+          dialect: "postgres",
+          port: configService.get("db_port"),
+          username: configService.get("db_user"),
+          password: configService.get("db_password"),
+          database: configService.get("db_name"),
+          host: configService.get("db_host"),
+          synchronize: true,
+          autoLoadModels: true,
+          models: [User, Watchlist],
+        };
+      },
     }),
     UserModule,
     AuthModule,
