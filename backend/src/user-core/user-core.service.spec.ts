@@ -2,7 +2,11 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { CreateUserDTO } from "../modules/user/dto/create-user.dto";
 import { UpdateUserDTO } from "../modules/user/dto/update-user.dto";
 import { UserCoreService } from "./user-core.service";
-import { UserEntity } from "./interfaces/user-repository.interface";
+import {
+  UserEntity,
+  UserRepository,
+} from "./interfaces/user-repository.interface";
+import { PasswordHasher } from "./interfaces/password-hasher.interface";
 
 describe("UserCoreService", () => {
   let service: UserCoreService;
@@ -22,7 +26,16 @@ describe("UserCoreService", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        UserCoreService,
+        {
+          provide: UserCoreService,
+          useFactory: (
+            userRepository: UserRepository,
+            encryptionService: PasswordHasher,
+          ) => {
+            return new UserCoreService(userRepository, encryptionService);
+          },
+          inject: ["USER_REPOSITORY", "ENCRYPTION_SERVICE"],
+        },
         {
           provide: "USER_REPOSITORY",
           useValue: mockUserRepository,
@@ -60,12 +73,16 @@ describe("UserCoreService", () => {
 
       mockUserRepository.create.mockResolvedValue(expectedResult);
 
-      const result = await service.createUser(dto as unknown as UserEntity);
+      const result = await service.createUser(dto as UserEntity);
 
       expect(mockEncryptionService.hash).toHaveBeenCalledWith(dto.password);
-      expect(mockUserRepository.create).toHaveBeenCalled();
+      expect(mockUserRepository.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          password: "hashed_password",
+        }),
+      );
       expect(result.email).toEqual(dto.email);
-      expect(result.password).toEqual("hashed_password");
+      expect(result.password).toBeUndefined();
     });
   });
 
