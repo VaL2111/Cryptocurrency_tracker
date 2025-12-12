@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { UserController } from "./user.controller";
-import { UserService } from "./user.service";
 import { UpdateUserDTO } from "./dto/update-user.dto";
+import { UserCoreService } from "../../user-core/user-core.service";
 
 describe("UserController", () => {
   let controller: UserController;
@@ -16,7 +16,7 @@ describe("UserController", () => {
       controllers: [UserController],
       providers: [
         {
-          provide: UserService,
+          provide: UserCoreService,
           useValue: mockUserService,
         },
       ],

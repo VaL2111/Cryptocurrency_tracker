@@ -38,4 +38,10 @@ export class WatchlistService {
 
     return result > 0;
   }
+
+  async getUserAssets(userId: number): Promise<Watchlist[]> {
+    return this.watchlistRepository.findAll({
+      where: { userId },
+    });
+  }
 }
