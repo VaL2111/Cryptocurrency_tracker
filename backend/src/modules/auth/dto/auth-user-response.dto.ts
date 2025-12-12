@@ -1,20 +1,24 @@
-import { ResponseUserDTO } from "../../user/dto/response-user.dto";
-import { User } from "../../user/models/user.model";
 import { ApiProperty } from "@nestjs/swagger";
-import { WatchlistResponseDTO } from "../../watchlist/dto/watchlist-response.dto";
+import { Watchlist } from "../../watchlist/models/watchlist.model";
+import { type UserEntity } from "../../../user-core/interfaces/user-repository.interface";
 
-export class AuthUserResponseDTO extends ResponseUserDTO {
+export class AuthUserResponseDTO {
+  @ApiProperty()
+  user: UserEntity;
+
+  @ApiProperty()
+  watchlist: Watchlist[];
+
   @ApiProperty()
   token: string;
 
-  @ApiProperty()
-  watchlist: WatchlistResponseDTO[];
+  constructor(user: UserEntity, token: string, watchlist: Watchlist[] = []) {
+    const userCopy = { ...user };
 
-  constructor(user: User, token: string) {
-    super(user);
+    delete userCopy.password;
+
+    this.user = userCopy;
     this.token = token;
-    this.watchlist = (user.watchlist || []).map(
-      (item) => new WatchlistResponseDTO(item),
-    );
+    this.watchlist = watchlist;
   }
 }

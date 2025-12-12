@@ -1,14 +1,25 @@
 import { Module } from "@nestjs/common";
-import { UserController } from "./user.controller";
-import { UserService } from "./user.service";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { User } from "./models/user.model";
-import { Watchlist } from "../watchlist/models/watchlist.model";
+import { UserController } from "./user.controller";
+import { SequelizeUserRepository } from "./adapters/sequelize-user.repository";
+import { BcryptAdapter } from "./adapters/bcrypt.adapter";
+import { UserCoreService } from "../../user-core/user-core.service";
 
 @Module({
-  imports: [SequelizeModule.forFeature([User, Watchlist])],
+  imports: [SequelizeModule.forFeature([User])],
   controllers: [UserController],
-  providers: [UserService],
-  exports: [UserService],
+  providers: [
+    SequelizeUserRepository,
+    BcryptAdapter,
+    {
+      provide: UserCoreService,
+      useFactory: (repo: SequelizeUserRepository, hasher: BcryptAdapter) => {
+        return new UserCoreService(repo, hasher);
+      },
+      inject: [SequelizeUserRepository, BcryptAdapter],
+    },
+  ],
+  exports: [UserCoreService],
 })
 export class UserModule {}

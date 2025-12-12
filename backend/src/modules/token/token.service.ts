@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
-import { User } from "../user/models/user.model";
+import { UserEntity } from "../../user-core/interfaces/user-repository.interface";
 
 @Injectable()
 export class TokenService {
@@ -10,10 +10,10 @@ export class TokenService {
     private readonly configService: ConfigService,
   ) {}
 
-  async generateJwtToken(user: User): Promise<string> {
+  async generateJwtToken(user: UserEntity): Promise<string> {
     const payload = {
       user: {
-        id: user.id as number,
+        id: user.id,
         email: user.email,
       },
     };

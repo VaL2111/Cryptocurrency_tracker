@@ -1,5 +1,5 @@
-import { User } from "../models/user.model";
 import { ApiProperty } from "@nestjs/swagger";
+import { UserEntity } from "../../../user-core/interfaces/user-repository.interface";
 
 export class ResponseUserDTO {
   @ApiProperty()
@@ -20,8 +20,8 @@ export class ResponseUserDTO {
   @ApiProperty()
   updatedAt: Date;
 
-  constructor(user: User) {
-    this.id = user.id as number;
+  constructor(user: UserEntity) {
+    this.id = user.id;
     this.firstName = user.firstName;
     this.username = user.username;
     this.email = user.email;
