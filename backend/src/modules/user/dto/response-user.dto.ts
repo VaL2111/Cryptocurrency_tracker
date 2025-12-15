@@ -1,11 +1,23 @@
 import { User } from "../models/user.model";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class ResponseUserDTO {
+  @ApiProperty()
   id: number;
+
+  @ApiProperty()
   firstName: string;
+
+  @ApiProperty()
   username: string;
+
+  @ApiProperty()
   email: string;
+
+  @ApiProperty()
   createdAt: Date;
+
+  @ApiProperty()
   updatedAt: Date;
 
   constructor(user: User) {
