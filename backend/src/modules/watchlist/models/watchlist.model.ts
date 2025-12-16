@@ -11,14 +11,14 @@ import { User } from "../../user/models/user.model";
 export class Watchlist extends Model {
   @ForeignKey(() => User)
   @Column
-  userId: number;
+  declare userId: number;
 
   @BelongsTo(() => User)
   user: User;
 
   @Column
-  name: string;
+  declare name: string;
 
   @Column
-  assetId: string;
+  declare assetId: string;
 }
