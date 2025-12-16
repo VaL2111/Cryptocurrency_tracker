@@ -25,6 +25,7 @@
   },
   "lint-staged": {
     "*.{ts,js,json,md}": "prettier --write",
-    "backend/src/**/*.ts": "npm run lint --prefix backend -- --fix"
+    "backend/src/**/*.ts": "npm run lint --prefix backend -- --fix",
+    "frontend/src/**/*.{ts,tsx}": "npm run lint --prefix frontend -- --fix"
   }
 }
