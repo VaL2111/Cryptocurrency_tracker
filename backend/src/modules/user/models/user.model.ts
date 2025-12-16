@@ -19,5 +19,5 @@ export class User extends Model {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  watchlist: Watchlist[];
+  declare watchlist: Watchlist[];
 }

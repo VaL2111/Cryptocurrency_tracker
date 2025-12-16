@@ -11,6 +11,14 @@ export class WatchlistService {
   ) {}
 
   async createAsset(userId: number, dto: WatchlistDTO): Promise<Watchlist> {
+    const existAsset = await this.watchlistRepository.findOne({
+      where: { userId, assetId: dto.assetId },
+    });
+
+    if (existAsset) {
+      return existAsset;
+    }
+
     const watchlist = {
       userId,
       name: dto.name,

@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   async loginUser(dto: LoginUserDTO): Promise<AuthUserResponseDTO> {
-    const existUser = await this.userService.findUserByEmail(dto.email);
+    const existUser = await this.userService.findUserByEmail(dto.email, true);
     if (!existUser) {
       throw new BadRequestException(appError.USER_NOT_EXIST);
     }

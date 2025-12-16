@@ -6,6 +6,7 @@ import { CreateUserDTO } from "./dto/create-user.dto";
 import { ResponseUserDTO } from "./dto/response-user.dto";
 import { UpdateUserDTO } from "./dto/update-user.dto";
 import { appError } from "../../common/constants/errors";
+import { Watchlist } from "../watchlist/models/watchlist.model";
 
 @Injectable()
 export class UserService {
@@ -46,7 +47,15 @@ export class UserService {
     return bcrypt.hash(password, 10);
   }
 
-  async findUserByEmail(email: string): Promise<User | null> {
-    return this.userRepository.findOne({ where: { email } });
+  async findUserByEmail(
+    email: string,
+    includeWatchlist: boolean = false,
+  ): Promise<User | null> {
+    return this.userRepository.findOne({
+      where: { email },
+      include: includeWatchlist
+        ? [{ model: Watchlist, required: false }]
+        : undefined,
+    });
   }
 }
