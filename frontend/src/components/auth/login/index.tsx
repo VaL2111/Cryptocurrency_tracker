@@ -1,6 +1,12 @@
 import { Button, TextField, Typography } from "@mui/material";
+import type { LoginPageProps } from "../../../common/types/auth";
+import * as React from "react";
+import { type JSX } from "react";
 
-const LoginPage = () => {
+const LoginPage: React.FC<LoginPageProps> = (
+  props: LoginPageProps,
+): JSX.Element => {
+  const { setEmail, setPassword } = props;
   return (
     <>
       <Typography variant="h2" fontFamily="Poppins" textAlign="center">
@@ -21,6 +27,7 @@ const LoginPage = () => {
         label="Email"
         variant="outlined"
         placeholder="Введіть ваш email"
+        onChange={(event) => setEmail(event.target.value)}
       />
       <TextField
         fullWidth={true}
@@ -29,8 +36,10 @@ const LoginPage = () => {
         label="Password"
         variant="outlined"
         placeholder="Введіть ваш пароль"
+        onChange={(event) => setPassword(event.target.value)}
       />
       <Button
+        type="submit"
         variant="contained"
         sx={{
           fontFamily: "Poppins",
