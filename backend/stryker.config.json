@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": "Stryker configuration for UserModule",
+  "packageManager": "npm",
+  "reporters": ["html", "clear-text", "progress"],
+  "testRunner": "jest",
+  "jest": {
+    "projectType": "custom",
+    "configFile": "package.json",
+    "enableFindRelatedTests": true
+  },
+  "mutate": [
+    "src/modules/user/user.service.ts",
+    "src/modules/user/user.controller.ts"
+  ],
+  "coverageAnalysis": "perTest",
+  "ignoreStatic": true
+}

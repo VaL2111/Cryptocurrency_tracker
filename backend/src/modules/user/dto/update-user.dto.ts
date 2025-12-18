@@ -5,15 +5,15 @@ export class UpdateUserDTO {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  firstName: string;
+  firstName?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  username: string;
+  username?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  email: string;
+  email?: string;
 }
