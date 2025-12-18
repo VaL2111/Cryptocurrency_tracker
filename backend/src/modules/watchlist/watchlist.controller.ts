@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  HttpCode,
   Post,
   Query,
   Req,
@@ -18,6 +19,7 @@ export class WatchlistController {
   constructor(private readonly watchlistService: WatchlistService) {}
 
   @ApiResponse({ status: 201, type: WatchlistResponseDTO })
+  @HttpCode(201)
   @UseGuards(JwtAuthGuard)
   @Post()
   async createAsset(
@@ -31,6 +33,7 @@ export class WatchlistController {
   }
 
   @ApiResponse({ status: 200 })
+  @HttpCode(200)
   @UseGuards(JwtAuthGuard)
   @Delete()
   deleteAsset(

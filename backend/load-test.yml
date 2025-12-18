@@ -1,0 +1,52 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 30
+      arrivalRate: 2
+      name: "Warm up"
+    - duration: 30
+      arrivalRate: 10
+      name: "High load"
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "New user registration"
+    weight: 3
+    flow:
+      - post:
+          url: "/auth/register"
+          json:
+            firstName: "User{{ $randomString }}"
+            username: "user_{{ $randomString }}"
+            email: "test_{{ $randomString }}@example.com"
+            password: "password123"
+          expect:
+            - statusCode: 201
+
+  - name: "Active user flow"
+    weight: 7
+    flow:
+      - post:
+          url: "/auth/login"
+          json:
+            email: "val@test.com"
+            password: "12345678"
+          capture:
+            - json: "$.token"
+              as: "access_token"
+          expect:
+            - statusCode: 200
+
+      - post:
+          url: "/watchlist"
+          headers:
+            Authorization: "Bearer {{ access_token }}"
+          json:
+            name: "Coin{{ $randomString }}"
+            assetId: "id_{{ $randomString }}"
+          expect:
+            - statusCode: 201
+
+      - think: 1
