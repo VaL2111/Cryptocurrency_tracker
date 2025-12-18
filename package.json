@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/VaL2111/Cryptocurrency_tracker#readme",
   "devDependencies": {
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
     "prettier": "^3.6.2"
